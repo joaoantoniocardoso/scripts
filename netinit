@@ -1,0 +1,87 @@
+#!/bin/env sh
+
+# Here some configuration:
+WPADIR="/etc/wpa_supplicant"
+INTERFACE="wlp2s0"
+DRIVER="nl80211"
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+
+    echo_and_run sudo ip link set dev $INTERFACE up;
+
+    # Locate and list all configuration files at the configured WPADIR
+    filenumber=$((1))
+    for file in $WPADIR/*.conf; do
+        if [[ -f $file ]]; then
+
+            filename=$(basename $file)
+            filename=${filename%.*}
+            echo  $filenumber - $filename # or just filename=${ $(basename $file)%.*}
+
+            
+
+            #if grep -inr $filename $WPADIR | grep ssid ; then
+            #    echo essid ;
+            #fi
+
+            options[filenumber]=$filename
+            ((filenumber++))
+        fi
+    done
+
+    # Asks for the connection
+    echo "Select a connection to try: "
+    read selected
+    if [ $filenumber -gt $selected  ]; then
+        
+        echo ""; echo ::::::: Disabling all others connections:
+        echo_and_run sudo systemctl stop wpa_supplicant
+        echo_and_run sudo killall wpa_supplicant
+        if [ /var/run/wpa_supplicant/$INTERFACE ]; then
+            echo_and_run sudo rm /var/run/wpa_supplicant/$INTERFACE
+        fi
+        echo_and_run sudo dhcpcd --release
+        echo_and_run sudo dhcpcd -kx $INTERFACE
+        echo_and_run sudo dhcpcd -kx enp1s0
+        echo_and_run sudo systemctl stop dhcpcd
+        echo_and_run sudo killall dhcpcd
+        echo_and_run sudo killall dnsmasq
+        echo_and_run sudo killall dhclient
+        echo_and_run sudo resolvconf -d $INTERFACE
+        echo_and_run sudo macchanger -a $INTERFACE
+        echo ""; echo ::::::: Connecting to ${options[$selected]}:
+        #echo_and_run sudo wpa_supplicant -dt -D $DRIVER -i $INTERFACE -c $WPADIR/${options[$selected]}.conf
+        echo_and_run sudo wpa_supplicant -B -D $DRIVER -i $INTERFACE -c $WPADIR/${options[$selected]}.conf
+        echo waiting
+        for i in {3..1}; do sleep 1; echo .; done
+        echo_and_run sudo dhcpcd --ipv4only
+        echo_and_run sudo resolvconf -r
+        echo_and_run sudo iwconfig $INTERFACE
+        echo waiting again
+        for i in {3..1}; do sleep 1; echo .; done
+        echo_and_run sudo dhclient -4 -nw $INTERFACE
+        echo_and_run sudo dnsmasq
+        echo_and_run cat /etc/resolv.conf
+#        echo ""; echo ::::::: Testing Connection:
+#        echo_and_run ping -c 3 -A google.com
+        echo_and_run watch -n 0.5 iw dev $INTERFACE link
+    else
+        echo Invalid option.
+    fi
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+

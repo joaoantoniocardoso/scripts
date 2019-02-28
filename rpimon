@@ -1,0 +1,2 @@
+#!/bin/env sh
+qemu-system-i386 -monitor unix:qemu-monitor-socket,server,nowait

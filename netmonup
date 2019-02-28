@@ -1,0 +1,27 @@
+#!/bin/env sh
+
+# Here some configuration:
+WPADIR="/etc/wpa_supplicant"
+INTERFACE="wlp2s0"
+DRIVER="nl80211"
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+    
+    echo_and_run sudo airmon-ng start wlp2s0
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+

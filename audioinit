@@ -1,0 +1,9 @@
+#!/bin/env sh
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+echo_and_run cadence & disown
+#echo_and_run pavcontrol & disown
+
+exit

@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+## Run Altium without internet connection
+#(https://askubuntu.com/questions/19346/how-to-block-internet-access-for-wine-applications)
+sg wino "env WINEARCH=win32 WINEPREFIX=/home/joaoantoniocardoso/.wine-altium9 wine ~/Altium/AD2009/dxp.exe"

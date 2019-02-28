@@ -1,0 +1,4 @@
+#!/bin/env sh
+
+watch -n 0.1 sensors ;
+

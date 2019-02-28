@@ -1,0 +1,43 @@
+#!/bin/env sh
+
+# Here some configuration:
+INTERFACE="enp1s0"
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+
+
+    echo_and_run sudo dhcpcd --release
+    echo_and_run sudo dhcpcd -kx $INTERFACE
+    echo_and_run sudo dhcpcd -kx wlp2s0
+    echo_and_run sudo systemctl stop dhcpcd
+    echo_and_run sudo killall dhcpcd
+    echo_and_run sudo killall dnsmasq
+    echo_and_run sudo killall dhclcient
+    echo_and_run sudo resolvconf -d $INTERFACE
+    echo_and_run sudo ip link set dev wlp2s0 down
+    echo_and_run sudo ip link set dev $INTERFACE down
+    echo_and_run sudo macchanger -a $INTERFACE
+    echo_and_run sudo dhcpcd --ipv4only
+    echo_and_run sudo resolvconf -r
+    echo_and_run sudo dhclient -4 -nw $INTERFACE
+    echo_and_run sudo dnsmasq
+    echo_and_run cat /etc/resolv.conf
+    echo_and_run ip link set $INTERACE up
+    echo_and_run watch -n 0.5 ip link show $INTERFACE
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+

@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+yaourt -S --asdeps --noconfirm $(pacman -Qqo '/usr/lib/perl5/vendor_perl')
+yaourt -S --asdeps --noconfirm $(pacman -Qqo '/usr/lib/perl5/site_perl')
+
+
+#LC_ALL=C find "/usr/lib/perl5/core_perl" -type f -exec pacman -Qqo {} + |& sed -n 's/^error: No package owns \(.*\)$/\1/p'
+
+#LC_ALL=C find "/usr/lib/perl5/site_perl" -type f -exec pacman -Qqo {} + |& sed -n 's/^error: No package owns \(.*\)$/\1/p'
+

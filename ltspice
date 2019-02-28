@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+## Run Altium
+env WINEARCH=win64 WINEPREFIX=/home/joaoantoniocardoso/.wine-lt wine ~/LT/LTspice/XVIIx64.exe

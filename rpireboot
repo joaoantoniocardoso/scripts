@@ -1,0 +1,2 @@
+#!/bin/env sh
+ssh -p 5022 pi@localhost sudo reboot

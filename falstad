@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# Run Matlab
+wmname LG3D
+cd /home/joaoantoniocardoso/Falstad
+java -jar circuit.jar

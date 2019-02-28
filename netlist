@@ -1,0 +1,8 @@
+#!/bin/env sh
+
+# Here some configuration:
+INTERFACE="wlp2s0"
+
+iwlist $INTERFACE scan | grep ESSID | awk -F: '{ print $2 }' | sed 's/"//g' | uniq ;
+
+

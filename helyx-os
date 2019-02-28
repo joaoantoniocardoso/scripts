@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+wmname LG3D
+sh /opt/Engys/HELYX-OS/v2.4.0/HELYX-OS.sh

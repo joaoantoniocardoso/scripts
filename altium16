@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# Run Altium
+env WINEARCH=win32 WINEPREFIX=/home/joaoantoniocardoso/.wine-altium16 wine ~/Altium/AD16/DXP.EXE

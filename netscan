@@ -1,0 +1,7 @@
+#!/bin/env sh
+
+# Here some configuration:
+INTERFACE="wlp2s0"
+
+sudo iw dev $INTERFACE scan | grep SSID ;
+

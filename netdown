@@ -1,0 +1,42 @@
+#!/bin/env sh
+
+# Here some configuration:
+WPADIR="/etc/wpa_supplicant"
+INTERFACE="wlp2s0"
+DRIVER="nl80211"
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+
+
+    echo_and_run sudo systemctl stop wpa_supplicant
+    echo_and_run sudo killall wpa_supplicant
+    if [ /var/run/wpa_supplicant/$INTERFACE ]; then
+        echo_and_run sudo rm /var/run/wpa_supplicant/$INTERFACE
+    fi
+    echo_and_run sudo dhcpcd --release
+    echo_and_run sudo dhcpcd -kx wlp2s0
+    echo_and_run sudo dhcpcd -kx enp1s0
+    echo_and_run sudo systemctl stop dhcpcd
+    echo_and_run sudo killall dhcpcd
+    echo_and_run sudo killall dhclcient
+    echo_and_run sudo resolvconf -d $INTERFACE
+    echo_and_run sudo ip link set dev $INTERFACE down;
+    echo_and_run sudo ip link set dev enp1s0 down;
+    echo_and_run sudo killall dnsmasq
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+

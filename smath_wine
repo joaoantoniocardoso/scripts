@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# Run PSIM
+env WINEARCH=win32 WINEPREFIX=/home/joaoantoniocardoso/.wine-smath wine "/home/joaoantoniocardoso/.wine-smath/drive_c/Program Files/SMath Studio/SMathStudio_Desktop.exe"

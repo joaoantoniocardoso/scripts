@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# Run Matlab
+wmname LG3D
+/./home/joaoantoniocardoso/Arduino-git/build/linux/work/arduino

@@ -1,0 +1,10 @@
+#!/bin/env sh
+#TERMINAL=urxvt
+TERMINAL=st
+
+$TERMINAL -e htop &disown
+$TERMINAL -e netinit &disown
+$TERMINAL -e tempmonitor &disown
+$TERMINAL -e mpd &disown
+$TERMINAL -e ncmpcpp &disown
+

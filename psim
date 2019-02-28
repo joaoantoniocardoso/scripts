@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# Run PSIM
+env WINEARCH=win32 WINEPREFIX=/home/joaoantoniocardoso/.wine-psim9.0.3 wine ~/PSIM/PSIM9.0.3/PSIM.exe

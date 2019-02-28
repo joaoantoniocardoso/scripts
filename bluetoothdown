@@ -1,0 +1,25 @@
+#!/bin/env sh
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+
+    echo_and_run sudo rfkill block bluetooth
+    echo_and_run sudo systemctl disable bluetooth.service
+    echo_and_run sudo modprobe -r btusb
+
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+

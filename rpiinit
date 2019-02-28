@@ -1,0 +1,20 @@
+#!/bin/sh
+
+IMG=~/PI/raspbian-stretch-lite.qcow
+DTB=~/PI/kernels/qemu-rpi-kernel/versatile-pb.dtb
+#KERNEL=~/PI/kernels/qemu-rpi-kernel/kernel-qemu-4.14.50-stretch
+KERNEL=~/PI/kernels/qemu-rpi-kernel/qemu-kernel-4.14.50
+
+
+qemu-system-arm \
+    -monitor unix:qemu-monitor-socket,server,nowait \
+    -nographic \
+    -serial stdio \
+    -kernel $KERNEL \
+    -dtb $DTB \
+    -no-reboot \
+    -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" \
+    -hda $IMG \
+    -cpu arm1176 -m 256 -M versatilepb \
+    -net nic -net user,hostfwd=tcp::5022-:22 \
+    -soundhw hda \

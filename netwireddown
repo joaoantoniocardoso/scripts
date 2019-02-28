@@ -1,0 +1,35 @@
+#!/bin/env sh
+
+# Here some configuration:
+INTERFACE="enp1s0"
+
+# A method to echo and run some command line
+echo_and_run() { echo "$@" ; "$@" ; }
+
+# Below the script
+
+if (($EUID == 0)); then
+
+
+    echo_and_run sudo dhcpcd --release
+    echo_and_run sudo dhcpcd -kx $INTERFACE
+    echo_and_run sudo dhcpcd -kx wlp2s0
+    echo_and_run sudo systemctl stop dhcpcd
+    echo_and_run sudo killall dhcpcd
+    echo_and_run sudo killall dnsmasq
+    echo_and_run sudo killall dhclcient
+    echo_and_run sudo resolvconf -d $INTERFACE
+    echo_and_run sudo ip link set dev wlp2s0 down
+    echo_and_run sudo ip link set dev $INTERFACE down
+
+    exit
+
+else 
+    if (($EUID != 0)); then
+        sudo $0 $@
+    fi
+
+    exit
+fi
+        
+
