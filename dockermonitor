@@ -1,0 +1,4 @@
+#!/bin/env sh
+
+watch -n 0.5 docker stats $(docker ps --format={{.Names}}) --no-stream
+

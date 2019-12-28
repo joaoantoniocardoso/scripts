@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+cd ~/Dropbox/IFSC/Documentos/2019-1/CEM/CEM_2/python_aux/
+python3.7 main.py

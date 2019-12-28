@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
-
-# Run Matlab
+sudo archlinux-java set java-13-openjdk
+export PATH=/usr/lib/jvm/java-13-openjdk/jre/bin/:$PATH
+# Run Arduino
 wmname LG3D
-/./home/joaoantoniocardoso/Arduino-git/build/linux/work/arduino
+#/./home/joaoantoniocardoso/Arduino-git/build/linux/work/arduino
+/bin/arduino

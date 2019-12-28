@@ -1,0 +1,2 @@
+#!/bin/sh
+/opt/altera/18.1/modelsim_ase/bin/vsim
